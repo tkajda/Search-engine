@@ -1,3 +1,6 @@
 /DIR/*
 /parsed_files/*
 union.txt
+node_modules
+*npz
+*.json
