@@ -1,19 +1,15 @@
 import React, { useEffect } from 'react'
 import {useState} from 'react';
 import axios from 'axios'
-
+import './style.css'
 
 function App() {
   const [data, setData] = useState('')
   const [linkData, setLinkData] = useState([{}]);
 
-  // useEffect(() => {
-      
-  // }, [])
+  const fetchData =  async () => {
 
-  const fetchData = () => {
-    console.log(1)
-    fetch("/search", {
+     fetch("/search", {
         headers : { 
           'Content-Type': 'application/json',
           'Accept': 'application/json'
@@ -34,28 +30,34 @@ function App() {
 
 
   return (
+    <div className='background'>
+
+
     <div className="App">
-      <h1>Wyszukiwarka</h1>
-      <h2>Wprowadz fraze</h2>
-      <input
-        type = "text"
-        value = {data}
-        required
-        onChange={(e) => setData(e.target.value)}/>
-      <button onClick={fetchData}>Szukaj</button>
+      <h1>LOOK UP</h1>
+      <h2>ENTER PHRASE</h2>
+      <div className='button-row'>
+        <input
+          placeholder='ENTER PHRASE'
+          type = "text"
+          value = {data}
+          required
+          onChange={(e) => setData(e.target.value)}/>
+        <button onClick={fetchData}>SEARCH</button>
+      </div>
+     
       <div>
-      Znaleziono:
         {(typeof linkData.links === 'undefined') ? (
             <p></p>
-        ) :   (
+        ) :   (          
         linkData.links.map(
-          link => <div className="singleResult" >{link.link}</div>
+          (link,index) =><div className="singleResult" key={link.link}>{index+1}. <a>{link.link}</a></div>
         ))
         }
 
       
       </div>
-
+      </div>
   
     </div>
   );
