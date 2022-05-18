@@ -5,23 +5,30 @@ import axios from 'axios'
 
 function App() {
   const [data, setData] = useState('')
-  const [links, setLinks] = useState([]);
+  const [linkData, setLinkData] = useState([{}]);
+
+  // useEffect(() => {
+      
+  // }, [])
 
   const fetchData = () => {
-    console.log(data)
-
-    axios.get('http://localhost:80',
-      {
-        params: {data}
-      }
+    console.log(1)
+    fetch("/search", {
+        headers : { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify(data)
+      }).then(
+        (res) => res.json()
+    ).then(
+      (links) => {
+          setLinkData(links)
+          console.log(links)
+        }
     )
-    .then(response => {
-      console.log(response)
-      setLinks(response.data)
-    })
-    .catch(error => {
-      console.log(error)
-    })
+
   }
 
 
@@ -38,11 +45,15 @@ function App() {
       <button onClick={fetchData}>Szukaj</button>
       <div>
       Znaleziono:
-      {
-        links.map(
-          link => <div className="singleResult" key={link.id}>{link.url}</div>
-        )
-      }
+        {(typeof linkData.links === 'undefined') ? (
+            <p></p>
+        ) :   (
+        linkData.links.map(
+          link => <div className="singleResult" >{link.link}</div>
+        ))
+        }
+
+      
       </div>
 
   
